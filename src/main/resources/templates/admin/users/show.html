@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Administrar Usuarios</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<div th:insert="~{admin/template_admin.html::header}"></div>
+
+<div class="container">
+  <h1 class="mt-4 mb-3">Usuarios <small>Administración</small></h1>
+
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a th:href="@{/admin}">Home</a></li>
+    <li class="breadcrumb-item active">Usuarios</li>
+  </ol>
+
+  <a th:href="@{/register}" class="btn btn-primary mb-3">Crear Usuario</a>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Usuario</th>
+      <th>Email</th>
+      <th>Teléfono</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.id}"></td>
+      <td th:text="${user.firstName}"></td>
+      <td th:text="${user.email}"></td>
+      <td th:text="${user.cellphone}"></td>
+      <td>
+        <a class="btn btn-warning" th:href="@{/admin/users/edit/{id}(id=${user.id})}">Editar</a>
+        <a class="btn btn-danger" th:href="@{/admin/users/delete/{id}(id=${user.id})}" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div th:insert="~{admin/template_admin.html::footer}"></div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>
