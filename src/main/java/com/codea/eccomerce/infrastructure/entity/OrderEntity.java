@@ -1,27 +1,20 @@
 package com.codea.eccomerce.infrastructure.entity;
 
+import com.codea.eccomerce.domain.Auditable;
+import com.codea.eccomerce.infrastructure.configuration.AuditingEntityListener;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
 @Data
-public class OrderEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class OrderEntity extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "date_created", nullable = false)
-    private LocalDateTime dateCreated = LocalDateTime.now(); // 🔹 Se inicializa correctamente
-
     @ManyToOne
-    @JoinColumn(name = "user_id") // Se asegura de mapear correctamente el usuario
+    @JoinColumn(name = "user_id")
     private UserEntity user;
-
-    @PrePersist
-    protected void onCreate() {
-        this.dateCreated = LocalDateTime.now();
-    }
 }

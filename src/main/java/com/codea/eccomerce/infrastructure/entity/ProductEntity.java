@@ -1,18 +1,19 @@
 package com.codea.eccomerce.infrastructure.entity;
 
-import com.codea.eccomerce.domain.User;
+import com.codea.eccomerce.domain.Auditable;
+import com.codea.eccomerce.infrastructure.configuration.AuditingEntityListener;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
 @Data
 @NoArgsConstructor
-public class ProductEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class ProductEntity extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,9 +23,7 @@ public class ProductEntity {
     private String image;
     private BigDecimal price;
 
-    private LocalDateTime dateCreated;
-    private LocalDateTime dateUpdated;
     @ManyToOne
     private UserEntity userEntity;
-
 }
+

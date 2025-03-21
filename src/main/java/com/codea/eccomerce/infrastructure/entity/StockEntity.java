@@ -1,28 +1,29 @@
 package com.codea.eccomerce.infrastructure.entity;
 
-import com.codea.eccomerce.domain.Product;
+import com.codea.eccomerce.domain.Auditable;
+import com.codea.eccomerce.infrastructure.configuration.AuditingEntityListener;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "stock")
 @NoArgsConstructor
 @Data
-public class StockEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class StockEntity extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private LocalDateTime dateCreated;
     private Integer unitIn;
     private Integer unitOut;
     private String description;
     private Integer balance;
+
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ProductEntity productEntity;
 }
+
