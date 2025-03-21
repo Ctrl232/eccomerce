@@ -48,6 +48,31 @@ public class ProductRepositoryImpl implements ProductRepository {
         productCrudRepository.deleteById(id);
     }
 
+    // Implementación de métodos de búsqueda
+    @Override
+    public Iterable<Product> searchByName(String name) {
+        return productMapper.toProducts(productCrudRepository.findByNameContainingIgnoreCase(name));
+    }
+
+
+    @Override
+    public Iterable<Product> searchByDescription(String description) {
+        return productMapper.toProducts(productCrudRepository.findByDescriptionContainingIgnoreCase(description));
+    }
+
+
+    @Override
+    public Iterable<Product> searchByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        return productMapper.toProducts(productCrudRepository.findByPriceBetween(minPrice, maxPrice));
+    }
+
+
+    @Override
+    public Iterable<Product> searchByCode(String code) {
+        ProductEntity productEntity = productCrudRepository.findByCode(code);
+        return productEntity != null ? List.of(productMapper.toProduct(productEntity)) : List.of();
+    }
+
 
 
 }

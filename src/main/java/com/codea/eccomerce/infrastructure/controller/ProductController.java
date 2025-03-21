@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/products")
@@ -58,6 +60,32 @@ public class ProductController {
         return "redirect:/admin/products/show";
     }
 
+    @GetMapping("/search")
+    public String searchProducts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) String code,
+            Model model
+    ) {
+        Iterable<Product> products;
+
+        if (name != null) {
+            products = productService.searchByName(name);
+        } else if (description != null) {
+            products = productService.searchByDescription(description);
+        } else if (minPrice != null && maxPrice != null) {
+            products = productService.searchByPriceRange(minPrice, maxPrice);
+        } else if (code != null) {
+            products = productService.searchByCode(code);
+        } else {
+            products = Collections.emptyList();
+        }
+
+        model.addAttribute("products", products);
+        return "admin/products/search";
+    }
 
 
 

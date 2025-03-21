@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ProductService {
 
@@ -60,6 +61,21 @@ public class ProductService {
         productRepository.deleteProductById(id);
     }
 
+    public Iterable<Product> searchByName(String name) {
+        return productRepository.searchByName(name);
+    }
+
+    public Iterable<Product> searchByDescription(String description) {
+        return productRepository.searchByDescription(description);
+    }
+
+    public Iterable<Product> searchByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        return productRepository.searchByPriceRange(minPrice, maxPrice);
+    }
+
+    public Iterable<Product> searchByCode(String code) {
+        return productRepository.searchByCode(code);
+    }
 
 
 
